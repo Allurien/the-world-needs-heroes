@@ -1,0 +1,341 @@
+@font-face {
+    font-family: "big_noodle_titling_oblique";
+    src: url('../fonts/big_noodle_titling_oblique.woff') format('woff'),
+         url('../fonts/big_noodle_titling_oblique.ttf')  format('truetype'); 
+         font-weight:normal;
+         font-style:normal;
+         font-variant:normal;
+        }
+@keyframes fadeCard {
+    from {
+        opacity: 1;
+    }
+    
+    to {
+        opacity: 0;
+    }
+    }
+
+/* Main element Modification */
+body {
+    background-image: url(../images/owbg.jpg);
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+}
+h1 {
+    font-family: 'big_noodle_titling_oblique', sans-serif;
+    color: #ff9c00;
+    font-size: 5vh;
+    margin: 0;
+}
+h2, h3, h4, h5, h6 {
+    font-family: 'big_noodle_titling_oblique', sans-serif;
+    color: #ff9c00;
+}
+
+/* Headers */
+.header {
+    width: 95%;
+    height: 5%;
+    margin: auto;
+}
+.headerInfo {
+    display: inline-block;
+    width: 100%;
+    text-align: right;
+    margin-top: 1.5%;
+    
+}
+.abilities {
+    text-align: center;
+    font-size: 7vh;
+}
+.nav {
+    padding: .5%;
+    display: block;
+    margin: 0;
+    margin-top: 10%;
+    vertical-align: super;
+}
+.nav li, .nav a {
+    list-style-type: none;
+    padding: .5vh;
+    display: inline;
+    font-family: 'big_noodle_titling_oblique', sans-serif;
+    font-size: 3vh;
+    color: #ff9c00;
+}
+
+/* Containers */
+.main-container {
+    width: 95%;
+    height: 85%;
+    margin-top: 4%;
+    margin-left: 2%;
+}
+#statBar {
+    display: inline-block;
+    /* background-color:black; */
+    color: #ff9c00;
+    width: 8%;
+    margin: auto;
+    text-align: center;
+    margin-right: 1%;
+}
+.games-played, .attempts, .accuracy {
+    height: 10vh;
+    margin-bottom: 1vh;
+    font-family: 'big_noodle_titling_oblique', sans-serif;
+}
+.label {
+    text-decoration: underline;
+}
+#game-area {
+    width: 90%;
+    height: 90%;
+    vertical-align: top;    
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-column-gap: 1vw;
+    grid-row-gap: 1vw;
+    position: relative;
+}
+
+/* Card Control */
+.card {
+    background-color:  rgb(27, 25, 25);
+    position: relative;
+    box-shadow: 0px 0px 3px 2px grey;
+    overflow: hidden;
+    cursor: pointer;
+}
+.front, .back {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    user-select: none
+}
+.front {
+    background-image: url(../images/cardfrontbg.jpg);
+    background-size: cover;
+    user-select: none
+}
+.back {
+    background-image: url(../images/owcardbg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    user-select: none
+}
+.front img, .back img {
+    max-height: 100%;
+    max-width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    position: absolute;
+    user-select: none
+}
+.reveal .back{
+    /* display: none; */
+    user-select: none;
+    animation-name: fade-in;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+.matched .back {
+    /* display: none; */
+    user-select: none;
+    pointer-events: none;
+    animation-name: fade-in;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+.viewing {
+    pointer-events: none;
+    user-select: none
+}
+
+/* Splash Modal */
+#splashModal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    min-width: 98vw;
+    min-height: 50vw;
+    max-width: 98vw;
+    max-height: 90vh;
+    background-color: rgba(0, 0, 0, 0.95);
+    cursor: pointer;
+}
+#splashModal p {
+    position: relative; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    font-family: 'big_noodle_titling_oblique', sans-serif;
+    color: #ff9c00;
+    font-size: 10vh;
+    text-align: center;
+    vertical-align: middle;
+}
+.hideModal{
+    display: none;
+}
+
+/* Win Modal */
+#winModal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    min-width: 98vw;
+    min-height: 50vw;
+    max-width: 98vw;
+    max-height: 90vh;
+    background-color: rgba(0, 0, 0, 0.95);
+}
+#winModal p {
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    font-family: 'big_noodle_titling_oblique', sans-serif;
+    color: #ff9c00;
+    font-size: 15vh;
+    text-shadow: 4px 4px 5px black;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}
+#winModal img {
+    position: relative; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 600px;
+    max-width: 600px;
+    margin: auto;
+}
+.hideWinModal{
+    display: none;
+}
+
+/* Buttons */
+.playPause {
+    max-width: 15%;
+    display: inline-block;
+    margin-top: 30%;
+    cursor: pointer;
+}
+.reset {
+    max-width: 20%;
+    display: inline-block;
+    font-family: 'big_noodle_titling_oblique', sans-serif;
+    cursor: pointer;
+}
+
+/* About */
+/* Splash Modal */
+#aboutBox {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    min-width: 75vw;
+    min-height: 75vw;
+    max-width: 75vw;
+    max-height: 75vh;
+    background-color: rgba(0, 0, 0, 0.85);
+}
+#aboutBox p {
+    position: relative; 
+    display: inline-block;
+    font-family:  sans-serif;
+    color: #ff9c00;
+    font-size: 3vh;
+    margin-bottom: 0;
+    margin-right: 5vw;
+}
+#aboutBox img {
+    position: relative; 
+    margin-top: 28vh;
+    max-height: 300px;
+    max-width: 300px;
+    display: inline-block
+}
+.about {
+    margin-left: 5vw;
+    display: inline-block
+}
+.about p {
+    font-size: 1vh;
+    font-family: sans-serif;
+}
+/* Fade Animation */
+@keyframes fade-in {
+  0% {
+    opacity: 1;
+    transform:
+      perspective(500px)
+      rotateX(-15deg)
+      translateZ(50px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: none;
+    display: none;
+
+  }
+}
+/* Power Classes */
+.mei {
+    background-image: url('../images/ice.png');
+    background-position: center;
+    background-size: cover;
+}
+.revealMei .back{
+    background-image: url('../images/ice.png');
+    opacity: .85;
+    background-position: center;
+    background-size: cover;
+    user-select: none;
+    pointer-events: none;
+}
+.deIce .back{
+    animation-name: fade-in;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    pointer-events: none;
+}
+.revealGenji .back{
+    background-image: url('../images/owcardbg-slash.png');
+    background-position: center;
+    background-size: cover;
+}
+.revealBastion .back{
+    background-image: url('../images/owcardbg-bullet.png');
+    background-position: center;
+    background-size: cover;
+}
+
+@media screen and (max-width: 600px) {
+    .container {
+        
+    }
+}
