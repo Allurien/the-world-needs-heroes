@@ -1,9 +1,4 @@
 
-// function gogoApp(){
-//     // addClickHandlers();
-//     // createBoard();  
-// }
-// Global variables
     // Card Handling
 var firstImageClick = null;
 var secondImageClick = null;
@@ -12,25 +7,6 @@ var second_card_clicked = null;
 var total_possible_matches = 9;
 var match_counter = 0;
 var currentCard = null;
-    // Stats
-var matches = 0;
-var attempts = 0;
-var accuracy = 0;
-var games_played = 0;
-
-function addClickHandlers(){
-    $('#game-area').on('click', '.card', card_clicked);
-    $("#splashModal").click(closeModal);
-    $("#winModal").click(hideWin);
-    $('.reset').click(function(){
-        games_played++;
-        reset_stats();
-        display_stats();
-        match_counter = 0;
-        $(".card").replaceWith();
-        // createBoard();
-    });
-}
 
 // Card Click Functionality
 function card_clicked() {
@@ -50,41 +26,31 @@ function card_clicked() {
         second_card_clicked = this;
         secondImageClick = clickedCard.find('.front img').attr('src');
         $(second_card_clicked).addClass('viewing');
-        attempts++;
-        $('.attemptValue').text(attempts);
+        stats.attempts++;
+        stats.overallAttempts++;
+        display_stats();
         if (firstImageClick === secondImageClick) {
             currentCard = clickedCard.attr('position');
             powerDetection();
             heroMatchSound();
-            match_counter++;
-            matches ++;
-            attempts++;
-            if(heroes.mei.heroCounter !==0 && heroes.mei.heroCounter < 5 && match_counter < 5){
-                heroes.mei.heroCounter++;
-                revealAdjacentCards();
-                
-            }   
-            $('.attemptValue').text(attempts);
-            $('.accuracyValue').text(accuracy + '%');
+            cardHandling.match_counter++;
+            stats.matches ++;
+            stats.overallMatches ++;
+            stats.attempts++; 
+            stats.overallAttempts++;   
+            display_stats();
             $(first_card_clicked).addClass('matched');
             $(second_card_clicked).addClass('matched');
             first_card_clicked = null;
             second_card_clicked = null;
-            if (match_counter === total_possible_matches) {
+            if (cardHandling.match_counter === cardHandling.total_possible_matches) {
                 victoryPose();
-                $('#winModal').removeClass('hideWinModal');
             } else {
                 return;
             }
         } else {
             $('.card').addClass('viewing');
             pauseFlip();   
-            if(heroes.mei.heroCounter !==0 && heroes.mei.heroCounter < 5){
-                heroes.mei.heroCounter++;
-                revealAdjacentCards();
-                
-            }   
-            return;
         }
     }
         
@@ -102,19 +68,7 @@ function pauseFlip(){
         hideCard();
     }, 1500);
 }
-// Stats Functionality
-function display_stats(){
-    var accuracy = Math.round((matches)/(attempts)*100);
-    $('.games-played .playedValue').text(games_played);
-    $('.attempts .attemptValue').text(attempts);
-    $('.accuracy .accuracyValue').text(accuracy + '%');
-}
-function reset_stats(){
-    var matches = 0;
-    var attempts = 0;
-    var accuracy = 0;
-    display_stats();
-}
+
 
 
 // Hero Power Invocation
@@ -153,14 +107,10 @@ function revealAdjacentCards() {
     var bottomElementSelector = `div[position="${bottomPosition}"]`;
     var leftElementSelector = `div[position="${leftPosition}"]`;
     var rightElementSelector = `div[position="${rightPosition}"]`;
-    if(heroes.mei.heroCounter == 0){
         topBottomCheck();
         leftCheck();
         rightCheck();
-        heroes.mei.heroCounter++;
-    } else if(heroes.mei.heroCounter < 5) {
         iceWall();
-    }
     function topBottomCheck(){      
         if(topPosition >= 0 && topPosition < 18){
             $(topElementSelector).addClass('revealMei');
@@ -179,11 +129,7 @@ function revealAdjacentCards() {
         }
     }
     function iceWall(){
-        if(heroes.mei.heroCounter == 4){
-        setTimeout(removeIceElement, 2000);
-        } else {
-            return;
-        }
+        setTimeout(removeIceElement, 6000);
         function removeIceElement() {
             $(topElementSelector).addClass('deIce');
             $(topElementSelector).removeClass('revealMei deIce');

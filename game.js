@@ -3,13 +3,51 @@ function gogoApp(){
     addClickHandlers();
     createBoard(heroes);  
 }
+
+//----------------------------------------->
+//Click Handlers
+function addClickHandlers(){
+    $('#game-area').on('click', '.card', card_clicked);
+    $("#splashModal").click(closeModal);
+    $("#winModal").click(hideWin);
+    $('.reset').click(function(){
+        stats.games_played++;
+        reset_stats();
+        cardHandling.match_counter = 0;
+        $(".card").replaceWith();
+        createBoard(heroes);
+    });
+}
+
+
+
 //----------------------------------------->
 //Stat Handling
 const stats = {
     matches: 0,
+    overallMatches: 0,
     attempts:0,
+    overallAttempts: 0,
     accuracy: 0,
     games_played: 0
+}
+function display_stats(){
+    if (stats.overallAttempts === 0){
+        $('.accuracy .accuracyValue').text(' ');
+    } else {
+        stats.accuracy = Math.round((stats.overallMatches)/(stats.overallAttempts)*100);
+    }
+    console.log('stats', stats.accuracy);
+    $('.games-played .playedValue').text(stats.games_played);
+    $('.attempts .attemptValue').text(stats.attempts);
+    $('.accuracy .accuracyValue').text(stats.accuracy + '%');
+    console.log('accuracy', stats.accuracy);
+    console.log('overallAttempts', stats.overallAttempts);
+}
+function reset_stats(){
+    stats.matches = 0;
+    stats.attempts = 0;
+    display_stats();
 }
 //----------------------------------------->
 // Card Handling
@@ -104,7 +142,7 @@ var heroes = {
         src: 'assets/images/heroes/hanzo.png' 
     },
     mei: {
-        // power: revealAdjacentCards,
+        power: revealAdjacentCards,
         heroCounter: 0,
         clickSound: new Audio('assets/sounds/mei-click.mp3'),
         clickSoundLimiter: false,
@@ -153,15 +191,13 @@ var heroes = {
 function victoryPose(){
     var winner = $('<p>').text('YOU WON!');
     var randomPose = cardHandling.victoryPoses[0][Math.floor(Math.random() * cardHandling.victoryPoses.length)];
-    $('#winModal').append(`<img src= "${heroes[randomPose].victoryPose}" alt= "You Won"/>)`, winner); 
-    $('.abilities').text('You won! Reset and play again?');
+    $('#winModal').append(`<img src= "${heroes[randomPose].victoryPose}" alt= "You Won"/>)`, winner).removeClass('hideWinModal'); 
+    $('.abilities').text('You won! Reset and play again?').click(reset_stats);
 }
-
-
-
 
 //----------------------------------------->
 //Sound
+var bgMusic = new Audio('assets/sounds/owlst17.mp3');
 function heroClickSound(){
     var heroName = firstImageClick.slice(21, -4);
     if(heroes[heroName].clickSoundLimiter == false){
@@ -175,7 +211,6 @@ function heroMatchSound(){
     var heroName = secondImageClick.slice(21, -4);
     heroes[heroName].matchSound.play();
 }
-var bgMusic = new Audio('assets/sounds/owlst17.mp3');    
 function bgMusicPlay(){
     bgMusic.play();
     bgMusic.loop=true;
@@ -183,5 +218,5 @@ function bgMusicPlay(){
 function bgMusicPause(){
   bgMusic.pause();
 }
-$(window).focus(bgMusicPlay);
-$(window).blur(bgMusicPause);    
+// $(window).focus(bgMusicPlay);
+// $(window).blur(bgMusicPause);    
