@@ -328,8 +328,6 @@ var heroes = {
     },
 }
 
-
-
 //----------------------------------------->
 //Win Conditions
 function victoryPose(){
@@ -368,5 +366,5 @@ function bgMusicPlay(){
 function bgMusicPause(){
   bgMusic.pause();
 }
-$(window).focus(bgMusicPlay);
-$(window).blur(bgMusicPause);    
+// $(window).focus(bgMusicPlay);
+// $(window).blur(bgMusicPause);    
