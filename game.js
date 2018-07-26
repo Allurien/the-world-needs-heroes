@@ -1,7 +1,9 @@
+$(document).ready(gogoApp);
 function gogoApp(){
     addClickHandlers();
-    createBoard();  
+    createBoard(heroes);  
 }
+//----------------------------------------->
 //Stat Handling
 const stats = {
     matches: 0,
@@ -9,9 +11,11 @@ const stats = {
     accuracy: 0,
     games_played: 0
 }
+//----------------------------------------->
 // Card Handling
 const cardHandling = {
     chosenHeroes: [],
+    victoryPoses: [],
     firstImageClick: null,
     secondImageClick: null,
     first_card_clicked: null,
@@ -20,52 +24,51 @@ const cardHandling = {
     match_counter: 0,
     currentCard: null
 }
+
+//----------------------------------------->
+//Modals
+function closeModal(){
+    $('#splashModal').replaceWith();
+    bgMusicPlay();
+}
+function hideWin(){
+    $("#winModal").addClass('hideWinModal');     
+}
+
+//----------------------------------------->
 //Board Creation
-function chooseHeroes(heroList){
+function createBoard(heroList){
     var extractedHeroes = [];
     var selectedHeroes = [];
-    var randomHeroes = [];
     var shuffledHeroes = [];
     for (var prop in heroList) {
         if (heroList.hasOwnProperty(prop)) {
             extractedHeroes.push(prop);
         }
     }
-    
     for ( var i = 0; i < cardHandling.total_possible_matches; i++ ) {
         selectedHeroes.push(extractedHeroes.splice(Math.floor(Math.random()*extractedHeroes.length),1)[0]);
     }
-    console.log('selected heroes', selectedHeroes);
+    cardHandling.victoryPoses.push(selectedHeroes);
     selectedHeroes = selectedHeroes.concat(selectedHeroes);
-    for ( var i = 0; i < cardHandling.total_possible_matches*2-1; i++ ) {
+    while ( selectedHeroes.length-1) {
         shuffledHeroes.push(selectedHeroes.splice(Math.floor(Math.random()*selectedHeroes.length),1)[0]);
     }
     shuffledHeroes.push(selectedHeroes[0]);
     cardHandling.chosenHeroes=shuffledHeroes;
-    console.log('chosen heroes', cardHandling.chosenHeroes);
-    
-    
-}
-function createBoard(){
-    for(i=0; i<cardHandling.total_possible_matches*2; i++){
-        var card = $('<div>').addClass('card').attr('position',i);
+    for(i=0; i<cardHandling.chosenHeroes.length; i++){
         var front = $('<div>').addClass('front');
         var back = $('<div>').addClass('back');
+        var card = $('<div>').addClass('card').attr({'position': i, 'hero':cardHandling.chosenHeroes[i]}).append(front, back);
         $('#game-area').append(card);
     }
-    $('.card').append(front, back);
-    addHeroes();
-}
-function addHeroes(){
-    var rosterCopy = heroRoster.concat(heroRoster);
     $('.front').each(function(){
-    var heroChoice = Math.floor(Math.random() * rosterCopy.length);
-    $(this).append(`<img src= "assets/images/heroes/${rosterCopy[heroChoice]}.png" alt= "${rosterCopy[heroChoice]}"/>`); 
-    rosterCopy.splice(heroChoice, 1);
+        var heroChoice = Math.floor(Math.random() * cardHandling.chosenHeroes.length);
+        $(this).append(`<img src= "assets/images/heroes/${cardHandling.chosenHeroes[heroChoice]}.png" alt= "${cardHandling.chosenHeroes[heroChoice]}"/>`); 
+        cardHandling.chosenHeroes.splice(heroChoice, 1);
   });
 }
-
-
+//----------------------------------------->
 // Heroes
 var heroes = {
     bastion: {
@@ -142,3 +145,43 @@ var heroes = {
         src: 'assets/images/heroes/zenyatta.png'
     },
 }
+
+
+
+//----------------------------------------->
+//Win Conditions
+function victoryPose(){
+    var winner = $('<p>').text('YOU WON!');
+    var randomPose = cardHandling.victoryPoses[0][Math.floor(Math.random() * cardHandling.victoryPoses.length)];
+    $('#winModal').append(`<img src= "${heroes[randomPose].victoryPose}" alt= "You Won"/>)`, winner); 
+    $('.abilities').text('You won! Reset and play again?');
+}
+
+
+
+
+//----------------------------------------->
+//Sound
+function heroClickSound(){
+    var heroName = firstImageClick.slice(21, -4);
+    if(heroes[heroName].clickSoundLimiter == false){
+        heroes[heroName].clickSound.play();
+        heroes[heroName].clickSoundLimiter = true;
+    } else {
+        return;
+    }
+}
+function heroMatchSound(){
+    var heroName = secondImageClick.slice(21, -4);
+    heroes[heroName].matchSound.play();
+}
+var bgMusic = new Audio('assets/sounds/owlst17.mp3');    
+function bgMusicPlay(){
+    bgMusic.play();
+    bgMusic.loop=true;
+}
+function bgMusicPause(){
+  bgMusic.pause();
+}
+$(window).focus(bgMusicPlay);
+$(window).blur(bgMusicPause);    

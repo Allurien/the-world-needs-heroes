@@ -1,8 +1,8 @@
-$(document).ready(gogoApp);
-function gogoApp(){
-    addClickHandlers();
-    createBoard();  
-}
+
+// function gogoApp(){
+//     // addClickHandlers();
+//     // createBoard();  
+// }
 // Global variables
     // Card Handling
 var firstImageClick = null;
@@ -28,13 +28,10 @@ function addClickHandlers(){
         display_stats();
         match_counter = 0;
         $(".card").replaceWith();
-        createBoard();
+        // createBoard();
     });
 }
-function closeModal(){
-    $('#splashModal').replaceWith();
-    bgMusicPlay();
-}
+
 // Card Click Functionality
 function card_clicked() {
     var clickedCard = $(this);
@@ -118,62 +115,7 @@ function reset_stats(){
     var accuracy = 0;
     display_stats();
 }
-// Game Board Generation
-function createBoard(){
-    for(i=0; i<total_possible_matches*2; i++){
-        var card = $('<div>').addClass('card').attr('position',i);
-        var front = $('<div>').addClass('front');
-        var back = $('<div>').addClass('back');
-        $('#game-area').append(card);
-    }
-    $('.card').append(front, back);
-    addHeroes();
-}
 
-function addHeroes(){
-    var rosterCopy = heroRoster.concat(heroRoster);
-    $('.front').each(function(){
-    var heroChoice = Math.floor(Math.random() * rosterCopy.length);
-    $(this).append(`<img src= "/assets/images/heroes/${rosterCopy[heroChoice]}.png" alt= "${rosterCopy[heroChoice]}"/>`); 
-    rosterCopy.splice(heroChoice, 1);
-  });
-}
-function victoryPose(){
-    var heroVictoryPoses = ['bastion', 'brigitte', 'genji', 'hanzo', 'mei', 'mercy', 'sombra', 'tracer', 'zenyatta'];
-    var randomPose = heroVictoryPoses[Math.floor(Math.random() * heroVictoryPoses.length)];
-    switch(randomPose){
-        case 'bastion':
-            $('#winModal').append(`<img src= "${heroes.bastion.victoryPose}" alt= "You Won"/>)`); 
-            break;  
-        case 'brigitte':
-            $('#winModal').append(`<img src= "${heroes.brigitte.victoryPose}" alt= "You Won"/>)`); 
-            break;
-        case 'genji':
-            $('#winModal').append(`<img src= "${heroes.genji.victoryPose}" alt= "You Won"/>)`); 
-            break;
-        case 'hanzo':
-            $('#winModal').append(`<img src= "${heroes.hanzo.victoryPose}" alt= "You Won"/>)`); 
-            break;  
-        case 'mei':
-            $('#winModal').append(`<img src= "${heroes.mei.victoryPose}" alt= "You Won"/>)`); 
-            break;
-        case 'mercy':
-            $('#winModal').append(`<img src= "${heroes.mercy.victoryPose}" alt= "You Won"/>)`); 
-            break;
-        case 'sombra':
-            $('#winModal').append(`<img src= "${heroes.sombra.victoryPose}" alt= "You Won"/>)`); 
-            break;  
-        case 'tracer':
-            $('#winModal').append(`<img src= "${heroes.tracer.victoryPose}" alt= "You Won"/>)`); 
-            break;
-        case 'zenyatta':
-            $('#winModal').append(`<img src= "${heroes.zenyatta.victoryPose}" alt= "You Won"/>)`); 
-            break;
-    }  
-    var winner = $('<p>').text('YOU WON!');
-    $('#winModal').append(winner);
-    $('.abilities').text('You won! Reset and play again?');
-}
 
 // Hero Power Invocation
 function powerDetection(){
@@ -310,205 +252,5 @@ function revealRandomCards(){
     $(card2).addClass('revealBastion');
     $(card3).addClass('revealBastion');
 }
-// Heroes
-var heroRoster = ['bastion', 'brigitte', 'genji', 'hanzo', 'mei', 'mercy', 'sombra', 'tracer', 'zenyatta'];
-var heroes = {
-    bastion: {
-        power: revealRandomCards,
-        clickSound: new Audio('assets/sounds/bastion-click.ogg'),
-        clickSoundLimiter: false,
-        matchSound: new Audio('assets/sounds/bastion-ult.ogg'),
-        victoryPose: 'assets/images/heroes/bastion-victory.png',
-        src: 'assets/images/heroes/bastion.png'
-    },
-    brigitte: {
-        power: 'none',
-        clickSound: new Audio('assets/sounds/brigitte-click.ogg'),
-        clickSoundLimiter: false,
-        matchSound: new Audio('assets/sounds/brigitte-ult.ogg'),
-        victoryPose: 'assets/images/heroes/brigitte-victory.png',
-        src: 'assets/images/heroes/brigitte.png'
-    },
-    genji: {
-        power: revealDiagonalCards,
-        clickSound: new Audio('assets/sounds/genji-click.ogg'),
-        clickSoundLimiter: false,
-        matchSound: new Audio('assets/sounds/genji-ult.ogg'),
-        victoryPose: 'assets/images/heroes/genji-victory.png',
-        src: 'assets/images/heroes/genji.png'
-    },
-    hanzo:{
-        power: revealEdgeCards,
-        clickSound: new Audio('assets/sounds/hanzo-click.ogg'),
-        clickSoundLimiter: false,
-        matchSound: new Audio('assets/sounds/hanzo-ult.ogg'),
-        victoryPose: 'assets/images/heroes/hanzo-victory.png',
-        src: 'assets/images/heroes/hanzo.png' 
-    },
-    mei: {
-        power: revealAdjacentCards,
-        heroCounter: 0,
-        clickSound: new Audio('assets/sounds/mei-click.mp3'),
-        clickSoundLimiter: false,
-        matchSound: new Audio('assets/sounds/mei-ult.ogg'),
-        victoryPose: 'assets/images/heroes/mei-victory.png',
-        src: 'assets/images/heroes/mei.png'
-    },
-    mercy: {
-        power: 'none',
-        clickSound: new Audio('assets/sounds/mercy-click.ogg'),
-        clickSoundLimiter: false,
-        matchSound: new Audio('assets/sounds/mercy-ult.ogg'),
-        victoryPose: 'assets/images/heroes/mercy-victory.png',
-        src: 'assets/images/heroes/mercy.png'
-    },
-    sombra: {
-        power: 'none',
-        clickSound: new Audio('assets/sounds/sombra-click.ogg'),
-        clickSoundLimiter: false,
-        matchSound: new Audio('assets/sounds/sombra-ult.ogg'),
-        victoryPose: 'assets/images/heroes/sombra-victory.png',
-        src: 'assets/images/heroes/sombra.png'
-    },
-    tracer: {
-        power: 'none',
-        clickSound: new Audio('assets/sounds/tracer-click.ogg'),
-        clickSoundLimiter: false,
-        matchSound: new Audio('assets/sounds/tracer-ult.ogg'),
-        victoryPose: 'assets/images/heroes/tracer-victory.png',
-        src: 'assets/images/heroes/tracer.png'
-    },
-    zenyatta: {
-        power: 'none',
-        clickSound: new Audio('assets/sounds/zenyatta-click.ogg'),
-        clickSoundLimiter: false,
-        matchSound: new Audio('assets/sounds/zenyatta-ult.ogg'),
-        victoryPose: 'assets/images/heroes/zenyatta-victory.png',
-        src: 'assets/images/heroes/zenyatta.png'
-    },
-}
-// Sounds
-function heroClickSound(){
-    var heroName = firstImageClick.slice(14, -4);
-    switch(heroName){  
-        case 'bastion': 
-            if(heroes.bastion.clickSoundLimiter == false){
-                heroes.bastion.clickSound.play();
-                heroes.bastion.clickSoundLimiter = true;
-            } else {
-                break;
-            }
-            break;
-        case 'brigitte': 
-            if(heroes.brigitte.clickSoundLimiter == false){
-                heroes.brigitte.clickSound.play();
-                heroes.brigitte.clickSoundLimiter = true;
-            } else {
-                break;
-            }            
-            break;
-        case 'genji': 
-            if(heroes.genji.clickSoundLimiter == false){
-                heroes.genji.clickSound.play();
-                heroes.genji.clickSoundLimiter = true;
-            } else {
-                break;
-            }
-            break;
-        case 'hanzo': 
-            if(heroes.hanzo.clickSoundLimiter == false){
-                heroes.hanzo.clickSound.play();
-                heroes.hanzo.clickSoundLimiter = true;
-            } else {
-                break;
-            }
-            break;
-        case 'mei': 
-            if(heroes.mei.clickSoundLimiter == false){
-                heroes.mei.clickSound.play();
-                heroes.mei.clickSoundLimiter = true;
-            } else {
-                break;
-            }
-            break;
-        case 'mercy': 
-            if(heroes.mercy.clickSoundLimiter == false){
-                heroes.mercy.clickSound.play();
-                heroes.mercy.clickSoundLimiter = true;
-            } else {
-                break;
-            }
-            break;
-        case 'sombra': 
-            if(heroes.sombra.clickSoundLimiter == false){
-                heroes.sombra.clickSound.play();
-                heroes.sombra.clickSoundLimiter = true;
-            } else {
-                break;
-            }
-            break;
-        case 'tracer': 
-            if(heroes.tracer.clickSoundLimiter == false){
-                heroes.tracer.clickSound.play();
-                heroes.tracer.clickSoundLimiter = true;
-            } else {
-                break;
-            }
-            break;
-        case 'zenyatta': 
-            if(heroes.zenyatta.clickSoundLimiter == false){
-                heroes.zenyatta.clickSound.play();
-                heroes.zenyatta.clickSoundLimiter = true;
-            } else {
-                break;
-            }
-            break;
-    }
-}
-function heroMatchSound(){
-    var heroName = secondImageClick.slice(14, -4);
-    switch(heroName){
-        case 'bastion': 
-            heroes.bastion.matchSound.play();
-            break;
-        case 'brigitte': 
-            heroes.brigitte.matchSound.play();
-            break;
-        case 'genji': 
-            heroes.genji.matchSound.play();
-            break;
-        case 'hanzo': 
-            heroes.hanzo.matchSound.play();
-            break;
-        case 'mei': 
-            heroes.mei.matchSound.play();
-            break;
-        case 'mercy': 
-            heroes.mercy.matchSound.play();
-            break;
-        case 'sombra': 
-            heroes.sombra.matchSound.play();
-            break;
-        case 'tracer': 
-            heroes.tracer.matchSound.play();
-            break;
-        case 'zenyatta': 
-            heroes.zenyatta.matchSound.play();
-            break;
-    }
-}
-var bgMusic = new Audio('assets/sounds/owlst17.mp3');    
-function bgMusicPlay(){
-    bgMusic.play();
-    bgMusic.loop=true;
-}
-function bgMusicPause(){
-  bgMusic.pause();
-}
-$(window).focus(bgMusicPlay);
-$(window).blur(bgMusicPause);    
 
-//Win Modal
-function hideWin(){
-    $("#winModal").addClass('hideWinModal');     
-}
+
