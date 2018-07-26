@@ -109,8 +109,16 @@ function createBoard(heroList){
 //----------------------------------------->
 // Heroes
 var heroes = {
+    ana: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/ana-click.wav'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/ana-ult.wav'),
+        victoryPose: 'assets/images/heroes/ana-victory.png',
+        src: 'assets/images/heroes/ana.png'
+    },
     bastion: {
-        // power: revealRandomCards,
+        power: revealRandomCards,
         clickSound: new Audio('assets/sounds/bastion-click.ogg'),
         clickSoundLimiter: false,
         matchSound: new Audio('assets/sounds/bastion-ult.ogg'),
@@ -125,8 +133,24 @@ var heroes = {
         victoryPose: 'assets/images/heroes/brigitte-victory.png',
         src: 'assets/images/heroes/brigitte.png'
     },
+    doomfist: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/doomfist-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/doomfist-ult.ogg'),
+        victoryPose: 'assets/images/heroes/doomfist-victory.png',
+        src: 'assets/images/heroes/doomfist.png'
+    },
+    dva: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/dva-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/dva-ult.ogg'),
+        victoryPose: 'assets/images/heroes/dva-victory.png',
+        src: 'assets/images/heroes/dva.png'
+    },
     genji: {
-        // power: revealDiagonalCards,
+        power: revealDiagonalCards,
         clickSound: new Audio('assets/sounds/genji-click.ogg'),
         clickSoundLimiter: false,
         matchSound: new Audio('assets/sounds/genji-ult.ogg'),
@@ -134,12 +158,36 @@ var heroes = {
         src: 'assets/images/heroes/genji.png'
     },
     hanzo:{
-        // power: revealEdgeCards,
+        power: revealEdgeCards,
         clickSound: new Audio('assets/sounds/hanzo-click.ogg'),
         clickSoundLimiter: false,
         matchSound: new Audio('assets/sounds/hanzo-ult.ogg'),
         victoryPose: 'assets/images/heroes/hanzo-victory.png',
         src: 'assets/images/heroes/hanzo.png' 
+    },
+    junkrat:{
+        power: 'none',
+        clickSound: new Audio('assets/sounds/junkrat-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/junkrat-ult.ogg'),
+        victoryPose: 'assets/images/heroes/junkrat-victory.png',
+        src: 'assets/images/heroes/junkrat.png' 
+    },
+    lucio:{
+        power: 'none',
+        clickSound: new Audio('assets/sounds/lucio-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/lucio-ult.ogg'),
+        victoryPose: 'assets/images/heroes/lucio-victory.png',
+        src: 'assets/images/heroes/lucio.png' 
+    },
+    mccree:{
+        power: 'none',
+        clickSound: new Audio('assets/sounds/mccree-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/mccree-ult.ogg'),
+        victoryPose: 'assets/images/heroes/mccree-victory.png',
+        src: 'assets/images/heroes/mccree.png' 
     },
     mei: {
         power: revealAdjacentCards,
@@ -158,6 +206,62 @@ var heroes = {
         victoryPose: 'assets/images/heroes/mercy-victory.png',
         src: 'assets/images/heroes/mercy.png'
     },
+    moira: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/moira-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/moira-ult.ogg'),
+        victoryPose: 'assets/images/heroes/moira-victory.png',
+        src: 'assets/images/heroes/moira.png'
+    },
+    orisa: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/orisa-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/orisa-ult.mp3'),
+        victoryPose: 'assets/images/heroes/orisa-victory.png',
+        src: 'assets/images/heroes/orisa.png'
+    },
+    pharah: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/pharah-click.mp3'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/pharah-ult.ogg'),
+        victoryPose: 'assets/images/heroes/pharah-victory.png',
+        src: 'assets/images/heroes/pharah.png'
+    },
+    reaper: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/reaper-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/reaper-ult.ogg'),
+        victoryPose: 'assets/images/heroes/reaper-victory.png',
+        src: 'assets/images/heroes/reaper.png'
+    },
+    reinhardt: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/reinhardt-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/reinhardt-ult.mp3'),
+        victoryPose: 'assets/images/heroes/reinhardt-victory.png',
+        src: 'assets/images/heroes/reinhardt.png'
+    },
+    roadhog: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/roadhog-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/roadhog-ult.ogg'),
+        victoryPose: 'assets/images/heroes/roadhog-victory.png',
+        src: 'assets/images/heroes/roadhog.png'
+    },
+    soldier76: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/soldier76-click.wav'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/soldier76-ult.ogg'),
+        victoryPose: 'assets/images/heroes/soldier76-victory.png',
+        src: 'assets/images/heroes/soldier76.png'
+    },
     sombra: {
         power: 'none',
         clickSound: new Audio('assets/sounds/sombra-click.ogg'),
@@ -166,6 +270,22 @@ var heroes = {
         victoryPose: 'assets/images/heroes/sombra-victory.png',
         src: 'assets/images/heroes/sombra.png'
     },
+    symmetra: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/symmetra-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/symmetra-ult.ogg'),
+        victoryPose: 'assets/images/heroes/symmetra-victory.png',
+        src: 'assets/images/heroes/symmetra.png'
+    },
+    torbjorn: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/torbjorn-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/torbjorn-ult.ogg'),
+        victoryPose: 'assets/images/heroes/torbjorn-victory.png',
+        src: 'assets/images/heroes/torbjorn.png'
+    },
     tracer: {
         power: 'none',
         clickSound: new Audio('assets/sounds/tracer-click.ogg'),
@@ -173,6 +293,30 @@ var heroes = {
         matchSound: new Audio('assets/sounds/tracer-ult.ogg'),
         victoryPose: 'assets/images/heroes/tracer-victory.png',
         src: 'assets/images/heroes/tracer.png'
+    },
+    widowmaker: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/widowmaker-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/widowmaker-ult.ogg'),
+        victoryPose: 'assets/images/heroes/widowmaker-victory.png',
+        src: 'assets/images/heroes/widowmaker.png'
+    },
+    winston: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/winston-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/winston-ult.ogg'),
+        victoryPose: 'assets/images/heroes/winston-victory.png',
+        src: 'assets/images/heroes/winston.png'
+    },
+    zarya: {
+        power: 'none',
+        clickSound: new Audio('assets/sounds/zarya-click.ogg'),
+        clickSoundLimiter: false,
+        matchSound: new Audio('assets/sounds/zarya-ult.ogg'),
+        victoryPose: 'assets/images/heroes/zarya-victory.png',
+        src: 'assets/images/heroes/zarya.png'
     },
     zenyatta: {
         power: 'none',
@@ -192,7 +336,13 @@ function victoryPose(){
     var winner = $('<p>').text('YOU WON!');
     var randomPose = cardHandling.victoryPoses[0][Math.floor(Math.random() * cardHandling.victoryPoses.length)];
     $('#winModal').append(`<img src= "${heroes[randomPose].victoryPose}" alt= "You Won"/>)`, winner).removeClass('hideWinModal'); 
-    $('.abilities').text('You won! Reset and play again?').click(reset_stats);
+    $('.abilities').text('You won! Reset and play again?').click(function(){
+        stats.games_played++;
+        reset_stats();
+        cardHandling.match_counter = 0;
+        $(".card").replaceWith();
+        createBoard(heroes);
+    });
 }
 
 //----------------------------------------->
@@ -218,5 +368,5 @@ function bgMusicPlay(){
 function bgMusicPause(){
   bgMusic.pause();
 }
-// $(window).focus(bgMusicPlay);
-// $(window).blur(bgMusicPause);    
+$(window).focus(bgMusicPlay);
+$(window).blur(bgMusicPause);    
