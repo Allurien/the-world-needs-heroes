@@ -17,6 +17,8 @@
 body {
     background-image: url(../images/owbg.jpg);
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     height: 100vh;
     width: 100vw;
     margin: 0;
@@ -82,10 +84,12 @@ h2, h3, h4, h5, h6 {
 }
 #statBar {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
     color: #ff9c00;
     text-align: center;
+    width:100%;
+
 }
 .games-played, .attempts, .accuracy {
     display: inline-block;
@@ -233,15 +237,11 @@ h2, h3, h4, h5, h6 {
 
 /* Buttons */
 .playPause {
-    max-width: 20%;
     display: inline-flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     cursor: pointer;
-}
-.playPause img {
-    max-width: 15%;
-    max-height: 15%;
+    width: 10%;
 }
 .reset {
     max-width: 20%;
@@ -337,8 +337,14 @@ h2, h3, h4, h5, h6 {
     background-size: cover;
 }
 
-@media screen and (max-width: 600px) {
-    .container {
-        
+@media screen and (max-width: 450px), screen and (max-height: 450px) {
+    #statBar h3 {
+        font-size: .75em;
+    }
+    .label {
+        font-size: .75em; 
+    }
+    .playPause i {
+        font-size: .75em;
     }
 }
