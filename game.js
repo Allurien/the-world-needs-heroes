@@ -522,7 +522,6 @@ function bgMusicPause(){
 //----------------------------------------->
 //Settings
 function setDifficulty(setting){
-    console.log(setting);
     if(setting === 9){
         $('#game-area, .hardDif, .ultraDif').removeClass('ultra hard selected');
         $('.normalDif').addClass('selected');
@@ -537,5 +536,4 @@ function setDifficulty(setting){
     cardHandling.total_possible_matches = setting;
     createBoard(heroes);
     reset_stats();
-    // $('li').removeClass('selected');
 }
