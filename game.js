@@ -44,9 +44,9 @@ function display_stats(){
     } else {
         stats.accuracy = Math.round((stats.overallMatches)/(stats.overallAttempts)*100);
     }
-    $('.games-played .playedValue').text(stats.games_played);
-    $('.attempts .attemptValue').text(stats.attempts);
-    $('.accuracy .accuracyValue').text(stats.accuracy + '%');
+    $('.playedValue').text(stats.games_played);
+    $('.attemptValue').text(stats.attempts);
+    $('.accuracyValue').text(stats.accuracy + '%');
 }
 function reset_stats(){
     stats.matches = 0;
@@ -67,7 +67,6 @@ const cardHandling = {
     match_counter: 0,
     currentCard: null
 }
-// Card Click Functionality
 function card_clicked() {
     var clickedCard = $(this);
     if(clickedCard.hasClass('matched') || clickedCard.hasClass('reveal') || clickedCard.hasClass('revealMei')) {
@@ -99,7 +98,7 @@ function card_clicked() {
             if (cardHandling.match_counter === cardHandling.total_possible_matches) {
                 window.setTimeout(function(){
                     victoryPose();
-                }, 2000);
+                }, 1500);
                 
             } else {
                 return;
@@ -124,7 +123,6 @@ function hideCard(){
     resetCardClick();
     $('.card').removeClass('viewing');
 }
-
 
 //----------------------------------------->
 //Modals
@@ -169,6 +167,7 @@ function createBoard(heroList){
         cardHandling.chosenHeroes.splice(heroChoice, 1);
   });
 }
+
 //----------------------------------------->
 // Heroes
 var heroes = {
@@ -517,5 +516,5 @@ function bgMusicPlay(){
 function bgMusicPause(){
   bgMusic.pause();
 }
-$(window).focus(bgMusicPlay);
-$(window).blur(bgMusicPause);    
+// $(window).focus(bgMusicPlay);
+// $(window).blur(bgMusicPause);    
