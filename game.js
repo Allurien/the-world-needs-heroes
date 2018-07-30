@@ -496,8 +496,8 @@ function victoryPose(){
 //----------------------------------------->
 //Sound
 var bgMusic = new Audio('assets/sounds/owlst17.mp3');
-// $(window).focus(bgMusicPlay);
-// $(window).blur(bgMusicPause); 
+$(window).focus(bgMusicPlay);
+$(window).blur(bgMusicPause); 
 function heroClickSound(){
     var heroName = cardHandling.firstImageClick.slice(21, -4);
     if(heroes[heroName].clickSoundLimiter == false){
@@ -522,8 +522,20 @@ function bgMusicPause(){
 //----------------------------------------->
 //Settings
 function setDifficulty(setting){
+    console.log(setting);
+    if(setting === 9){
+        $('#game-area, .hardDif, .ultraDif').removeClass('ultra hard selected');
+        $('.normalDif').addClass('selected');
+    } else if(setting === 14){
+        $('#game-area, .normalDif, .ultraDif').addClass('hard').removeClass('ultra selected');
+        $('.hardDif').addClass('selected');
+    } else if(setting === 20){
+        $('#game-area, .normalDif, .hardDif').addClass('ultra').removeClass('hard selected');
+        $('.ultraDif').addClass('selected');
+    }
     $(".card").replaceWith();
     cardHandling.total_possible_matches = setting;
     createBoard(heroes);
     reset_stats();
+    // $('li').removeClass('selected');
 }
