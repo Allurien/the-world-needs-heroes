@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" href="assets/images/owfavicon.ico" type="image/x-icon" >
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     
-    <script src="main.js"></script>
+    <script src="game.js"></script>
     <title>The World Needs Heroes - A Hero Based Card Game</title>
 </head>
 <body onmousedown="return false">
@@ -42,12 +43,13 @@
                     <h2 class="label">Settings</h2>
                 </div> -->
                 <div class='playPause'>
-                    <img src="assets/images/play.png" onclick="bgMusicPlay()" alt="Play">
-                    <img src="assets/images/pause.png" onclick="bgMusicPause()" alt="Pause">
-                    <ul class="nav">
-                        <!-- <li>Settings</li> -->
-                        <!-- <li><a href='about.html'>About</a></li> -->
-                </ul> 
+                        <i class="fas fa-play" onclick="bgMusicPlay()" alt="Play"></i>
+                        <i class="fas fa-pause" onclick="bgMusicPause()" alt="Pause"></i>
+                        <i class="fas fa-cog" alt="Settings"></i>
+                    <!-- <ul class="nav">
+                        <li>Settings</li>
+                        <li><a href='about.html'>About</a></li>
+                    </ul>  -->
                 </div>
             </div>
         </div>
@@ -57,7 +59,5 @@
             <p>THE WORLD NEEDS HEROES.</p>
             <p>ARE YOU WITH US?</p>
         </div>
-
-        <script src="game.js"></script>
 </body>
 </html>
