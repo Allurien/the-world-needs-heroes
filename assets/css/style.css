@@ -97,11 +97,9 @@ h2, h3, h4, h5, h6 {
     height: 100%;
     display: inline-grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
     grid-gap: 1vmin;
     position: relative;
 }
-
 /* Card Control */
 .card {
     background-color:  rgb(27, 25, 25);
@@ -171,6 +169,14 @@ h2, h3, h4, h5, h6 {
     background-color: rgba(0, 0, 0, 0.92);
     cursor: pointer;
 }
+.modal p, li{
+    position: relative; 
+    font-family: 'big_noodle_titling_oblique', sans-serif;
+    color: #ff9c00;
+    font-size: 12vmin;
+    text-align: center;
+    margin: 0;
+}
 .hideModal{
     display: none;
 }
@@ -182,23 +188,9 @@ h2, h3, h4, h5, h6 {
 #splashModal {
     display: flex;
 }
-#splashModal p {
-    position: relative; 
-    font-family: 'big_noodle_titling_oblique', sans-serif;
-    color: #ff9c00;
-    font-size: 12vmin;
-    text-align: center;
-    margin: 0;
-}
+
 /* Settings Modal */
-#settingsModal p, li {
-    position: relative; 
-    font-family: 'big_noodle_titling_oblique', sans-serif;
-    color: #ff9c00;
-    font-size: 12vmin;
-    text-align: center;
-    margin: 0;
-}
+
 #settingsModal li {
     list-style-type: none;
     font-size: 8vmin;
@@ -208,18 +200,12 @@ h2, h3, h4, h5, h6 {
 #winModal p {
     position: absolute; 
     margin: auto;
-    font-family: 'big_noodle_titling_oblique', sans-serif;
-    color: #ff9c00;
     font-size: 15vh;
     text-shadow: 4px 4px 5px black;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
 }
 #winModal img {
     position: relative; 
-    max-height: 600px;
-    max-width: 600px;
+    max-width: 50%;
     margin: auto;
 }
 
@@ -236,9 +222,6 @@ h2, h3, h4, h5, h6 {
     max-width: 20%;
     display: inline-block;
     font-family: 'big_noodle_titling_oblique', sans-serif;
-    cursor: pointer;
-}
-.cursor {
     cursor: pointer;
 }
 
@@ -258,6 +241,15 @@ h2, h3, h4, h5, h6 {
     display: none;
 
   }
+}
+@keyframes fadeCard {
+from {
+    opacity: 1;
+}
+
+to {
+    opacity: 0;
+}
 }
 @keyframes border-flicker {
     0% {
@@ -297,20 +289,7 @@ h2, h3, h4, h5, h6 {
         -moz-box-shadow: 0px 0px 3px 1px rgba(255, 156, 0,1);
         box-shadow: 0px 0px 3px 1px rgba(255, 156, 0,1);
     }
-  }
-@keyframes fadeCard {
-from {
-    opacity: 1;
 }
-
-to {
-    opacity: 0;
-}
-}
-
-
-
-
 
 /* Power Classes */
 .mei {
@@ -358,5 +337,8 @@ to {
     }
     .playPause i {
         font-size: .75em;
+    }
+    #winModal img {
+        max-width: 100%;
     }
 }

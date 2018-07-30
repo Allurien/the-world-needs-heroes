@@ -147,7 +147,7 @@ function createBoard(heroList){
     for ( var i = 0; i < cardHandling.total_possible_matches; i++ ) {
         selectedHeroes.push(extractedHeroes.splice(Math.floor(Math.random()*extractedHeroes.length),1)[0]);
     }
-    console.log(selectedHeroes);
+    // console.log(selectedHeroes);
     cardHandling.victoryPoses.push(selectedHeroes);
     selectedHeroes = selectedHeroes.concat(selectedHeroes);
     while ( selectedHeroes.length-1) {
@@ -483,9 +483,9 @@ function revealRandomCards(){
 function victoryPose(){
     var winner = $('<p>').text('YOU WON!');
     var randomPose = cardHandling.victoryPoses[0][Math.floor(Math.random() * cardHandling.victoryPoses.length)];
+    stats.games_played++;
     $('#winModal').append(`<img src= "${heroes[randomPose].victoryPose}" alt= "You Won"/>)`, winner).removeClass('hideModal').addClass('showModal'); 
     $('.abilities').text('You won! Reset and play again?').addClass('cursor').click(function(){
-        stats.games_played++;
         reset_stats();
         cardHandling.match_counter = 0;
         $(".card").replaceWith();
@@ -518,4 +518,12 @@ function bgMusicPlay(){
 function bgMusicPause(){
   bgMusic.pause();
 }
-   
+  
+//----------------------------------------->
+//Settings
+function setDifficulty(setting){
+    $(".card").replaceWith();
+    cardHandling.total_possible_matches = setting;
+    createBoard(heroes);
+    reset_stats();
+}
