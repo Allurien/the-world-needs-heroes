@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="icon" href="assets/images/owfavicon.ico" type="image/x-icon" >
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    
-    <script src="game.js"></script>
-    <title>The World Needs Heroes - A Hero Based Card Game</title>
-</head>
-<body onmousedown="return false">
-    <div class="header">
-        <div class="headerInfo">
-            <h1 class="abilities">Choose your hero</h1>  
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="icon" href="assets/images/owfavicon.ico" type="image/x-icon" >
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="game.js"></script>
+        <title>The World Needs Heroes - An Overwatch Card Game</title>
+    </head>
+    <body onmousedown="return false">
+        <div class="header">
+            <div class="headerInfo">
+                <h1 class="abilities">Choose Your Hero</h1>  
+            </div>
         </div>
-    </div>
         <div class="main-container">
-            <div id="game-area"></div>
-            
+            <div id="game-area"></div>   
         </div>
         <div class="footer">
             <div id="statBar">
@@ -39,25 +37,26 @@
                 <div class='reset'>
                     <h2 class="label">Reset Game</h2>
                 </div>
-                <!-- <div class='settings'>
-                    <h2 class="label">Settings</h2>
-                </div> -->
                 <div class='playPause'>
                         <i class="fas fa-play" onclick="bgMusicPlay()" alt="Play"></i>
                         <i class="fas fa-pause" onclick="bgMusicPause()" alt="Pause"></i>
-                        <i class="fas fa-cog" alt="Settings"></i>
-                    <!-- <ul class="nav">
-                        <li>Settings</li>
-                        <li><a href='about.html'>About</a></li>
-                    </ul>  -->
+                        <i class="fas fa-cog" onclick="displaySettings()" alt="Settings"></i>
                 </div>
             </div>
         </div>
-        <div id="winModal" class='hideWinModal'>
+        <div id="winModal" class='modal hideModal'></div>
+        <div id="settingsModal" class='modal hideModal'>
+            <p>Choose your difficulty</p>
+            <ul>
+                <li onclick="setDifficulty(9)">Normal</li>
+                <li onclick="setDifficulty(12)">Hard</li>
+                <li onclick="setDifficulty(15)">Ultra</li>
+            </ul>
+
         </div>
-        <div id="splashModal">
+        <div id="splashModal" class='modal'>
             <p>THE WORLD NEEDS HEROES.</p>
             <p>ARE YOU WITH US?</p>
         </div>
-</body>
+    </body>
 </html>

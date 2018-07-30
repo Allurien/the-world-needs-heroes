@@ -1,5 +1,5 @@
-$(document).ready(gogoApp);
-function gogoApp(){
+$(document).ready(goGoApp);
+function goGoApp(){
     addClickHandlers();
     createBoard(heroes);  
 }
@@ -9,7 +9,8 @@ function gogoApp(){
 function addClickHandlers(){
     $('#game-area').on('click', '.card', card_clicked);
     $("#splashModal").click(closeModal);
-    $("#winModal").click(hideWin);
+    $("#winModal").click(hideModal);
+    $("#settingsModal").click(hideModal);
     $('.reset').click(function(){
         stats.games_played++;
         reset_stats();
@@ -39,11 +40,9 @@ function incrementAttempts(){
     stats.overallAttempts++;
 }
 function display_stats(){
-    if (stats.overallAttempts === 0){
-        $('.accuracy .accuracyValue').text(' ');
-    } else {
+    if (stats.overallAttempts !== 0){
         stats.accuracy = Math.round((stats.overallMatches)/(stats.overallAttempts)*100);
-    }
+    }      
     $('.playedValue').text(stats.games_played);
     $('.attemptValue').text(stats.attempts);
     $('.accuracyValue').text(stats.accuracy + '%');
@@ -80,34 +79,31 @@ function card_clicked() {
         $(cardHandling.first_card_clicked).addClass('viewing');
         heroClickSound();
         return;
-    } else {
-        cardHandling.second_card_clicked = clickedCard;
-        cardHandling.secondImageClick = clickedCard.find('.front img').attr('src');
-        $(cardHandling.second_card_clicked).addClass('viewing');
-        incrementAttempts();
+    }
+    cardHandling.second_card_clicked = clickedCard;
+    cardHandling.secondImageClick = clickedCard.find('.front img').attr('src');
+    $(cardHandling.second_card_clicked).addClass('viewing');
+    incrementAttempts();
+    display_stats();
+    if (cardHandling.firstImageClick === cardHandling.secondImageClick) {
+        cardHandling.currentCard = clickedCard.attr('position');
+        powerDetection();
+        heroMatchSound();
+        incrementMatches();
+        incrementAttempts(); 
         display_stats();
-        if (cardHandling.firstImageClick === cardHandling.secondImageClick) {
-            cardHandling.currentCard = clickedCard.attr('position');
-            powerDetection();
-            heroMatchSound();
-            incrementMatches();
-            incrementAttempts(); 
-            display_stats();
-            $([cardHandling.first_card_clicked[0], cardHandling.second_card_clicked[0]]).addClass('matched').removeClass('flicker revealBastion revealGenji');
-            resetCardClick()
-            if (cardHandling.match_counter === cardHandling.total_possible_matches) {
-                window.setTimeout(function(){
-                    victoryPose();
-                }, 1500);
-                
-            } else {
-                return;
-            }
-        } else {
-            $('.card').addClass('viewing');
-            pauseFlip();   
+        $([cardHandling.first_card_clicked[0], cardHandling.second_card_clicked[0]]).addClass('matched').removeClass('flicker revealBastion revealGenji');
+        resetCardClick()
+        if (cardHandling.match_counter === cardHandling.total_possible_matches) {
+            window.setTimeout(function(){
+                victoryPose();
+            }, 1500);
+            
         }
-    }      
+        return
+    }
+    $('.card').addClass('viewing');
+        pauseFlip();     
 }
 function resetCardClick(){
     cardHandling.first_card_clicked = null;
@@ -130,8 +126,11 @@ function closeModal(){
     $('#splashModal').replaceWith();
     bgMusicPlay();
 }
-function hideWin(){
-    $("#winModal").addClass('hideWinModal').removeClass('showWinModal');     
+function hideModal(){
+    $(this).addClass('hideModal').removeClass('showModal');     
+}
+function displaySettings(){
+    $("#settingsModal").addClass('showModal').removeClass('hideModal');    
 }
 
 //----------------------------------------->
@@ -148,6 +147,7 @@ function createBoard(heroList){
     for ( var i = 0; i < cardHandling.total_possible_matches; i++ ) {
         selectedHeroes.push(extractedHeroes.splice(Math.floor(Math.random()*extractedHeroes.length),1)[0]);
     }
+    // console.log(selectedHeroes);
     cardHandling.victoryPoses.push(selectedHeroes);
     selectedHeroes = selectedHeroes.concat(selectedHeroes);
     while ( selectedHeroes.length-1) {
@@ -158,7 +158,7 @@ function createBoard(heroList){
     for(i=0; i<cardHandling.chosenHeroes.length; i++){
         var front = $('<div>').addClass('front');
         var back = $('<div>').addClass('back');
-        var card = $('<div>').addClass('card').attr({'position': i, 'hero':cardHandling.chosenHeroes[i]}).append(front, back);
+        var card = $('<div>').addClass('card').attr({'position': i}).append(front, back);
         $('#game-area').append(card);
     }
     $('.front').each(function(){
@@ -483,9 +483,9 @@ function revealRandomCards(){
 function victoryPose(){
     var winner = $('<p>').text('YOU WON!');
     var randomPose = cardHandling.victoryPoses[0][Math.floor(Math.random() * cardHandling.victoryPoses.length)];
-    $('#winModal').append(`<img src= "${heroes[randomPose].victoryPose}" alt= "You Won"/>)`, winner).removeClass('hideWinModal').addClass('showWinModal'); 
+    stats.games_played++;
+    $('#winModal').append(`<img src= "${heroes[randomPose].victoryPose}" alt= "You Won"/>)`, winner).removeClass('hideModal').addClass('showModal'); 
     $('.abilities').text('You won! Reset and play again?').addClass('cursor').click(function(){
-        stats.games_played++;
         reset_stats();
         cardHandling.match_counter = 0;
         $(".card").replaceWith();
@@ -496,6 +496,8 @@ function victoryPose(){
 //----------------------------------------->
 //Sound
 var bgMusic = new Audio('assets/sounds/owlst17.mp3');
+// $(window).focus(bgMusicPlay);
+// $(window).blur(bgMusicPause); 
 function heroClickSound(){
     var heroName = cardHandling.firstImageClick.slice(21, -4);
     if(heroes[heroName].clickSoundLimiter == false){
@@ -516,5 +518,12 @@ function bgMusicPlay(){
 function bgMusicPause(){
   bgMusic.pause();
 }
-// $(window).focus(bgMusicPlay);
-// $(window).blur(bgMusicPause);    
+  
+//----------------------------------------->
+//Settings
+function setDifficulty(setting){
+    $(".card").replaceWith();
+    cardHandling.total_possible_matches = setting;
+    createBoard(heroes);
+    reset_stats();
+}
