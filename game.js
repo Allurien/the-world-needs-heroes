@@ -19,8 +19,6 @@ function addClickHandlers(){
     });
 }
 
-
-
 //----------------------------------------->
 //Stat Handling
 const stats = {
@@ -31,24 +29,31 @@ const stats = {
     accuracy: 0,
     games_played: 0
 }
+function incrementMatches(){
+    cardHandling.match_counter++;
+    stats.matches ++;
+    stats.overallMatches ++;
+}
+function incrementAttempts(){
+    stats.attempts++;
+    stats.overallAttempts++;
+}
 function display_stats(){
     if (stats.overallAttempts === 0){
         $('.accuracy .accuracyValue').text(' ');
     } else {
         stats.accuracy = Math.round((stats.overallMatches)/(stats.overallAttempts)*100);
     }
-    console.log('stats', stats.accuracy);
     $('.games-played .playedValue').text(stats.games_played);
     $('.attempts .attemptValue').text(stats.attempts);
     $('.accuracy .accuracyValue').text(stats.accuracy + '%');
-    console.log('accuracy', stats.accuracy);
-    console.log('overallAttempts', stats.overallAttempts);
 }
 function reset_stats(){
     stats.matches = 0;
     stats.attempts = 0;
     display_stats();
 }
+
 //----------------------------------------->
 // Card Handling
 const cardHandling = {
@@ -62,6 +67,64 @@ const cardHandling = {
     match_counter: 0,
     currentCard: null
 }
+// Card Click Functionality
+function card_clicked() {
+    var clickedCard = $(this);
+    if(clickedCard.hasClass('matched') || clickedCard.hasClass('reveal') || clickedCard.hasClass('revealMei')) {
+        return;
+    }
+    clickedCard.addClass('reveal'); 
+    $(clickedCard.back).addClass('fadeCard animated');    
+    if(cardHandling.first_card_clicked === null) {
+        cardHandling.first_card_clicked = clickedCard;
+        cardHandling.firstImageClick = clickedCard.find('.front img').attr('src');
+        $(cardHandling.first_card_clicked).addClass('viewing');
+        heroClickSound();
+        return;
+    } else {
+        cardHandling.second_card_clicked = clickedCard;
+        cardHandling.secondImageClick = clickedCard.find('.front img').attr('src');
+        $(cardHandling.second_card_clicked).addClass('viewing');
+        incrementAttempts();
+        display_stats();
+        if (cardHandling.firstImageClick === cardHandling.secondImageClick) {
+            cardHandling.currentCard = clickedCard.attr('position');
+            powerDetection();
+            heroMatchSound();
+            incrementMatches();
+            incrementAttempts(); 
+            display_stats();
+            $([cardHandling.first_card_clicked[0], cardHandling.second_card_clicked[0]]).addClass('matched').removeClass('flicker revealBastion revealGenji');
+            resetCardClick()
+            if (cardHandling.match_counter === cardHandling.total_possible_matches) {
+                window.setTimeout(function(){
+                    victoryPose();
+                }, 2000);
+                
+            } else {
+                return;
+            }
+        } else {
+            $('.card').addClass('viewing');
+            pauseFlip();   
+        }
+    }      
+}
+function resetCardClick(){
+    cardHandling.first_card_clicked = null;
+    cardHandling.second_card_clicked = null;
+}
+function pauseFlip(){
+    window.setTimeout(function(){
+        hideCard();
+    }, 1500);
+}
+function hideCard(){
+    $([cardHandling.first_card_clicked[0], cardHandling.second_card_clicked[0]]).removeClass('reveal');
+    resetCardClick();
+    $('.card').removeClass('viewing');
+}
+
 
 //----------------------------------------->
 //Modals
@@ -70,7 +133,7 @@ function closeModal(){
     bgMusicPlay();
 }
 function hideWin(){
-    $("#winModal").addClass('hideWinModal');     
+    $("#winModal").addClass('hideWinModal').removeClass('showWinModal');     
 }
 
 //----------------------------------------->
@@ -329,12 +392,100 @@ var heroes = {
 }
 
 //----------------------------------------->
+// Hero Power Invocation
+function powerDetection(){
+    function removeAbility() {
+        $('.abilities').text('Choose a card');
+    }
+    switch (cardHandling.secondImageClick) {
+        case heroes.mei.src:
+            $('.abilities').text('You\'ve triggered Mei\'s Ice Wall!');
+            setTimeout(removeAbility, 4000);
+            revealAdjacentCards();
+            break;
+        case heroes.genji.src:
+            $('.abilities').text('You\'ve triggered Genji\'s Dragon Blade!');
+            setTimeout(removeAbility, 4000);
+            revealDiagonalCards();
+            break;
+        case heroes.hanzo.src:
+            $('.abilities').text('You\'ve triggered Hanzo\'s Sonic Arrow!');
+            setTimeout(removeAbility, 4000);
+            revealEdgeCards();
+            break;
+        case heroes.bastion.src:
+            $('.abilities').text('You\'ve triggered Bastion\'s Tank Configuration! Run.');
+            setTimeout(removeAbility, 4000);
+            revealRandomCards();
+            break;
+    
+        default:
+            break;
+    }
+}
+function revealAdjacentCards() {
+    var topPosition = parseInt(cardHandling.currentCard)-6;
+    var bottomPosition = parseInt(cardHandling.currentCard)+6;
+    var leftPosition = parseInt(cardHandling.currentCard)-1;
+    var rightPosition = parseInt(cardHandling.currentCard)+1;
+    $(`div[position="${topPosition}"], div[position="${bottomPosition}"]`).addClass('revealMei');
+    leftRightCheck();
+    iceWall();
+    function leftRightCheck(){
+        if(leftPosition !== 5 && leftPosition !== 11) {
+            $(`div[position="${leftPosition}"]`).addClass('revealMei');
+        }
+        if(rightPosition !== 6 && rightPosition !== 12) {
+            $(`div[position="${rightPosition}"]`).addClass('revealMei');
+        }
+    }
+    function iceWall(){
+        setTimeout(removeIceElement, 6000);
+        function removeIceElement() {
+            $('.card').removeClass('revealMei ');
+        }
+    }
+}
+function revealDiagonalCards() {
+    var position = parseInt(cardHandling.currentCard);
+    var topLeft = parseInt(cardHandling.currentCard)-7;
+    var topRight = parseInt(cardHandling.currentCard)-5;
+    var bottomLeft = parseInt(cardHandling.currentCard)+5;
+    var bottomRight = parseInt(cardHandling.currentCard)+7;
+    leftRightCheck();
+    function leftRightCheck(){
+        if(position !== 0  && position !== 6 && position !== 12) {
+            $(`div[position="${topLeft}"], div[position="${bottomLeft}"]`).addClass('revealGenji flicker');
+        }  
+        if(position !== 5 && position !== 11 && position !== 17) {
+            $(`div[position="${topRight}"], div[position="${bottomRight}"]`).addClass('revealGenji flicker');
+        }
+    }
+}
+function revealEdgeCards() {
+    showEdges();
+    setTimeout(hideEdges, 2000);
+    function showEdges() {
+        $('div[position="0"], div[position="6"], div[position="12"], div[position="5"], div[position="11"], div[position="17"]').addClass('reveal');
+    }
+    function hideEdges() {
+        $('div[position="0"], div[position="6"], div[position="12"], div[position="5"], div[position="11"], div[position="17"]').removeClass('reveal');
+    }
+}
+function revealRandomCards(){
+    for(var i=0; i<3; i++){
+        var card = `div[position="${Math.floor((Math.random() * 17))}"]`;
+        $(card).addClass('revealBastion flicker');
+    }
+}
+
+//----------------------------------------->
 //Win Conditions
 function victoryPose(){
     var winner = $('<p>').text('YOU WON!');
     var randomPose = cardHandling.victoryPoses[0][Math.floor(Math.random() * cardHandling.victoryPoses.length)];
-    $('#winModal').append(`<img src= "${heroes[randomPose].victoryPose}" alt= "You Won"/>)`, winner).removeClass('hideWinModal'); 
-    $('.abilities').text('You won! Reset and play again?').click(function(){
+    $('#winModal').append(`<img src= "${heroes[randomPose].victoryPose}" alt= "You Won"/>)`, winner).removeClass('hideWinModal').addClass('showWinModal'); 
+    $('.abilities').text('You won! Reset and play again?').addClass('cursor').click(function(){
         stats.games_played++;
         reset_stats();
         cardHandling.match_counter = 0;
@@ -347,7 +498,7 @@ function victoryPose(){
 //Sound
 var bgMusic = new Audio('assets/sounds/owlst17.mp3');
 function heroClickSound(){
-    var heroName = firstImageClick.slice(21, -4);
+    var heroName = cardHandling.firstImageClick.slice(21, -4);
     if(heroes[heroName].clickSoundLimiter == false){
         heroes[heroName].clickSound.play();
         heroes[heroName].clickSoundLimiter = true;
@@ -356,7 +507,7 @@ function heroClickSound(){
     }
 }
 function heroMatchSound(){
-    var heroName = secondImageClick.slice(21, -4);
+    var heroName = cardHandling.secondImageClick.slice(21, -4);
     heroes[heroName].matchSound.play();
 }
 function bgMusicPlay(){
@@ -366,5 +517,5 @@ function bgMusicPlay(){
 function bgMusicPause(){
   bgMusic.pause();
 }
-// $(window).focus(bgMusicPlay);
-// $(window).blur(bgMusicPause);    
+$(window).focus(bgMusicPlay);
+$(window).blur(bgMusicPause);    
