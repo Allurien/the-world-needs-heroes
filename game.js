@@ -148,7 +148,7 @@ function createBoard(heroList){
     for ( var i = 0; i < cardHandling.total_possible_matches; i++ ) {
         selectedHeroes.push(extractedHeroes.splice(Math.floor(Math.random()*extractedHeroes.length),1)[0]);
     }
-    console.log(selectedHeroes);
+    // console.log(selectedHeroes);
     cardHandling.victoryPoses.push(selectedHeroes);
     selectedHeroes = selectedHeroes.concat(selectedHeroes);
     while ( selectedHeroes.length-1) {
@@ -475,7 +475,6 @@ function revealAdjacentCards() {
 }
 function revealDiagonalCards() {
     var centerCard = cardHandling.currentCard;
-    console.log(centerCard);
     var position = parseInt(centerCard);
     var topLeft = parseInt(centerCard)-7;
     var topRight = parseInt(centerCard)-5;
@@ -560,7 +559,6 @@ function revealEdgeCards() {
 function revealRandomCards(){
     for(var i=0; i<3; i++){
         var card = `div[position="${Math.floor((Math.random() * cardHandling.victoryPoses[0].length*2))}"]`;
-        console.log('bastion card', card);
         $(card).addClass('revealBastion flicker');
     }
 }
