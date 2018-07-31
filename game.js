@@ -139,6 +139,7 @@ function createBoard(heroList){
     var extractedHeroes = [];
     var selectedHeroes = [];
     var shuffledHeroes = [];
+    cardHandling.victoryPoses = [];
     for (var prop in heroList) {
         if (heroList.hasOwnProperty(prop)) {
             extractedHeroes.push(prop);
@@ -147,7 +148,7 @@ function createBoard(heroList){
     for ( var i = 0; i < cardHandling.total_possible_matches; i++ ) {
         selectedHeroes.push(extractedHeroes.splice(Math.floor(Math.random()*extractedHeroes.length),1)[0]);
     }
-    // console.log(selectedHeroes);
+    console.log(selectedHeroes);
     cardHandling.victoryPoses.push(selectedHeroes);
     selectedHeroes = selectedHeroes.concat(selectedHeroes);
     while ( selectedHeroes.length-1) {
@@ -423,18 +424,45 @@ function powerDetection(){
     }
 }
 function revealAdjacentCards() {
-    var topPosition = parseInt(cardHandling.currentCard)-6;
-    var bottomPosition = parseInt(cardHandling.currentCard)+6;
-    var leftPosition = parseInt(cardHandling.currentCard)-1;
-    var rightPosition = parseInt(cardHandling.currentCard)+1;
+    var centerCard = cardHandling.currentCard;
+    var topPosition = parseInt(centerCard)-6;
+    var bottomPosition = parseInt(centerCard)+6;
+    var leftPosition = parseInt(centerCard)-1;
+    var rightPosition = parseInt(centerCard)+1;
+    if ($('#game-area').hasClass('hard')){
+        topPosition = parseInt(centerCard)-7;
+        bottomPosition = parseInt(centerCard)+7;
+    }
+    if ($('#game-area').hasClass('ultra')){
+        topPosition = parseInt(centerCard)-8;
+        bottomPosition = parseInt(centerCard)+8;
+    }
     $(`div[position="${topPosition}"], div[position="${bottomPosition}"]`).addClass('revealMei');
     leftRightCheck();
     iceWall();
     function leftRightCheck(){
-        if(leftPosition !== 5 && leftPosition !== 11) {
-            $(`div[position="${leftPosition}"]`).addClass('revealMei');
+        if ($('#game-area').hasClass('hard')){
+            if(!layouts.hard.rightCol.includes(leftPosition)) {
+                $(`div[position="${leftPosition}"]`).addClass('revealMei');
+            }  
+            if(!layouts.hard.leftCol.includes(rightPosition)) {
+                $(`div[position="${rightPosition}"]`).addClass('revealMei');
+            }
+            return;
         }
-        if(rightPosition !== 6 && rightPosition !== 12) {
+        if ($('#game-area').hasClass('ultra')){
+            if(!layouts.ultra.rightCol.includes(leftPosition)) {
+                $(`div[position="${leftPosition}"]`).addClass('revealMei');
+            }  
+            if(!layouts.ultra.leftCol.includes(rightPosition)) {
+                $(`div[position="${rightPosition}"]`).addClass('revealMei');   
+            }
+            return;
+        }
+        if(!layouts.base.rightCol.includes(leftPosition)) {
+            $(`div[position="${leftPosition}"]`).addClass('revealMei');
+        }  
+        if(!layouts.base.leftCol.includes(rightPosition)) {
             $(`div[position="${rightPosition}"]`).addClass('revealMei');
         }
     }
@@ -446,34 +474,93 @@ function revealAdjacentCards() {
     }
 }
 function revealDiagonalCards() {
-    var position = parseInt(cardHandling.currentCard);
-    var topLeft = parseInt(cardHandling.currentCard)-7;
-    var topRight = parseInt(cardHandling.currentCard)-5;
-    var bottomLeft = parseInt(cardHandling.currentCard)+5;
-    var bottomRight = parseInt(cardHandling.currentCard)+7;
+    var centerCard = cardHandling.currentCard;
+    console.log(centerCard);
+    var position = parseInt(centerCard);
+    var topLeft = parseInt(centerCard)-7;
+    var topRight = parseInt(centerCard)-5;
+    var bottomLeft = parseInt(centerCard)+5;
+    var bottomRight = parseInt(centerCard)+7;
+    function leftSideSelection(){
+        if(!$(`div[position="${topLeft}"]`).hasClass('matched')){
+            $(`div[position="${topLeft}"]`).addClass('revealGenji flicker');
+        }
+        if(!$(`div[position="${bottomLeft}"]`).hasClass('matched')){
+            $(`div[position="${bottomLeft}"]`).addClass('revealGenji flicker');
+        }
+    }
+    function rightSideSelection(){
+        if(!$(`div[position="${topRight}"]`).hasClass('matched')){
+            $(`div[position="${topRight}"]`).addClass('revealGenji flicker');
+        }
+        if(!$(`div[position="${bottomRight}"]`).hasClass('matched')){
+            $(`div[position="${bottomRight}"]`).addClass('revealGenji flicker');
+        }
+    }
+    if ($('#game-area').hasClass('hard')){
+        topLeft = parseInt(centerCard)-8;
+        topRight = parseInt(centerCard)-6;
+        bottomLeft = parseInt(centerCard)+6;
+        bottomRight = parseInt(centerCard)+8;
+    }
+    if ($('#game-area').hasClass('ultra')){
+        topLeft = parseInt(centerCard)-9;
+        topRight = parseInt(centerCard)-7;
+        bottomLeft = parseInt(centerCard)+7;
+        bottomRight = parseInt(centerCard)+9;
+    }
     leftRightCheck();
     function leftRightCheck(){
-        if(position !== 0  && position !== 6 && position !== 12) {
-            $(`div[position="${topLeft}"], div[position="${bottomLeft}"]`).addClass('revealGenji flicker');
+        if ($('#game-area').hasClass('hard')){
+            if(!layouts.hard.leftCol.includes(position)) {
+                leftSideSelection();
+            }  
+            if(!layouts.hard.rightCol.includes(position)) {
+                rightSideSelection();
+            }
+            return;
+        }
+        if ($('#game-area').hasClass('ultra')){
+            if(!layouts.ultra.leftCol.includes(position)) {
+                leftSideSelection();
+            }  
+            if(!layouts.ultra.rightCol.includes(position)) {
+                rightSideSelection();   
+            }
+            return;
+        }
+        if(!layouts.base.leftCol.includes(position)) {
+            leftSideSelection();
         }  
-        if(position !== 5 && position !== 11 && position !== 17) {
-            $(`div[position="${topRight}"], div[position="${bottomRight}"]`).addClass('revealGenji flicker');
+        if(!layouts.base.rightCol.includes(position)) {
+            rightSideSelection();
         }
     }
 }
 function revealEdgeCards() {
-    showEdges();
-    setTimeout(hideEdges, 2000);
-    function showEdges() {
-        $('div[position="0"], div[position="6"], div[position="12"], div[position="5"], div[position="11"], div[position="17"]').addClass('reveal');
+    if ($('#game-area').hasClass('hard')){
+        showEdges(layouts.hard.leftCol.concat(layouts.hard.rightCol));
+    } else if ($('#game-area').hasClass('ultra')){
+        showEdges(layouts.ultra.leftCol.concat(layouts.ultra.rightCol));
+    } else {
+        showEdges(layouts.base.leftCol.concat(layouts.base.rightCol));
     }
-    function hideEdges() {
-        $('div[position="0"], div[position="6"], div[position="12"], div[position="5"], div[position="11"], div[position="17"]').removeClass('reveal');
+    function showEdges(array) {
+        const edgeCards = array.map(i => $(`div[position="${i}"]`).addClass('reveal'))
+        window.setTimeout(function(){
+            hideEdges(array);
+        }, 2000);
+        return edgeCards;
+    }
+    function hideEdges(array) {
+        const edgeCards = array.map(i => $(`div[position="${i}"]`).removeClass('reveal'))
+        return edgeCards;
     }
 }
 function revealRandomCards(){
     for(var i=0; i<3; i++){
-        var card = `div[position="${Math.floor((Math.random() * 17))}"]`;
+        var card = `div[position="${Math.floor((Math.random() * cardHandling.victoryPoses[0].length*2))}"]`;
+        console.log('bastion card', card);
         $(card).addClass('revealBastion flicker');
     }
 }
@@ -535,5 +622,6 @@ function setDifficulty(setting){
     $(".card").replaceWith();
     cardHandling.total_possible_matches = setting;
     createBoard(heroes);
+    $('.abilities').text('Choose your hero')
     reset_stats();
 }
