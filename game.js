@@ -569,6 +569,8 @@ function victoryPose(){
     var winner = $('<p>').text('YOU WON!');
     var randomPose = cardHandling.victoryPoses[0][Math.floor(Math.random() * cardHandling.victoryPoses.length)];
     stats.games_played++;
+    cardHandling.match_counter = 0;
+    $('#winModal img').replaceWith();
     $('#winModal').append(`<img src= "${heroes[randomPose].victoryPose}" alt= "You Won"/>)`, winner).removeClass('hideModal').addClass('showModal'); 
     $('.abilities').text('You won! Reset and play again?').addClass('cursor').click(function(){
         reset_stats();
