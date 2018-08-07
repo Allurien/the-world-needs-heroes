@@ -97,13 +97,12 @@ function card_clicked() {
         if (cardHandling.match_counter === cardHandling.total_possible_matches) {
             window.setTimeout(function(){
                 victoryPose();
-            }, 1500);
-            
+            }, 1000);
         }
         return
     }
     $('.card').addClass('viewing');
-        pauseFlip();     
+        pauseFlip();
 }
 function resetCardClick(){
     cardHandling.first_card_clicked = null;
@@ -395,30 +394,29 @@ var heroes = {
 // Hero Power Invocation
 function powerDetection(){
     function removeAbility() {
-        $('.abilities').text('Choose a card');
+        $('.power').text('');
     }
     switch (cardHandling.secondImageClick) {
         case heroes.mei.src:
-            $('.abilities').text('You\'ve triggered Mei\'s Ice Wall!');
-            setTimeout(removeAbility, 4000);
+            $('.power').text('You\'ve triggered Mei\'s Ice Wall!');
+            setTimeout(removeAbility, 3000);
             revealAdjacentCards();
             break;
         case heroes.genji.src:
-            $('.abilities').text('You\'ve triggered Genji\'s Dragon Blade!');
-            setTimeout(removeAbility, 4000);
+            $('.power').text('You\'ve triggered Genji\'s Dragon Blade!');
+            setTimeout(removeAbility, 3000);
             revealDiagonalCards();
             break;
         case heroes.hanzo.src:
-            $('.abilities').text('You\'ve triggered Hanzo\'s Sonic Arrow!');
-            setTimeout(removeAbility, 4000);
+            $('.power').text('You\'ve triggered Hanzo\'s Sonic Arrow!');
+            setTimeout(removeAbility, 3000);
             revealEdgeCards();
             break;
         case heroes.bastion.src:
-            $('.abilities').text('You\'ve triggered Bastion\'s Tank Configuration! Run.');
-            setTimeout(removeAbility, 4000);
+            $('.power').text('You\'ve triggered Bastion\'s Tank Configuration! Run.');
+            setTimeout(removeAbility, 3000);
             revealRandomCards();
             break;
-    
         default:
             break;
     }
