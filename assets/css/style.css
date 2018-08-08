@@ -194,6 +194,10 @@ h2, h3, h4, h5, h6 {
 #splashModal {
     display: flex;
 }
+#splashModal i{
+    margin-top: 5vh;
+    animation: text-flicker 6s linear infinite;
+}
 
 /* Settings Modal */
 

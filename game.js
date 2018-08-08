@@ -3,7 +3,6 @@ function goGoApp(){
     addClickHandlers();
     createBoard(heroes);  
 }
-
 //----------------------------------------->
 //Click Handlers
 function addClickHandlers(){
@@ -50,6 +49,7 @@ function display_stats(){
 function reset_stats(){
     stats.matches = 0;
     stats.attempts = 0;
+    $('.abilities').text('Choose a hero');
     display_stats();
 }
 
@@ -77,6 +77,7 @@ function card_clicked() {
         cardHandling.first_card_clicked = clickedCard;
         cardHandling.firstImageClick = clickedCard.find('.front img').attr('src');
         $(cardHandling.first_card_clicked).addClass('viewing');
+        $('.abilities').text('Match your hero');
         heroClickSound();
         return;
     }
@@ -93,7 +94,8 @@ function card_clicked() {
         incrementAttempts(); 
         display_stats();
         $([cardHandling.first_card_clicked[0], cardHandling.second_card_clicked[0]]).addClass('matched').removeClass('flicker revealBastion revealGenji');
-        resetCardClick()
+        resetCardClick();
+        $('.abilities').text('Choose a hero');
         if (cardHandling.match_counter === cardHandling.total_possible_matches) {
             window.setTimeout(function(){
                 victoryPose();
@@ -111,6 +113,7 @@ function resetCardClick(){
 function pauseFlip(){
     window.setTimeout(function(){
         hideCard();
+        $('.abilities').text('Choose a hero');
     }, 1500);
 }
 function hideCard(){
@@ -139,6 +142,7 @@ function createBoard(heroList){
     var selectedHeroes = [];
     var shuffledHeroes = [];
     cardHandling.victoryPoses = [];
+    var preloadImages = [];
     for (var prop in heroList) {
         if (heroList.hasOwnProperty(prop)) {
             extractedHeroes.push(prop);
@@ -147,7 +151,17 @@ function createBoard(heroList){
     for ( var i = 0; i < cardHandling.total_possible_matches; i++ ) {
         selectedHeroes.push(extractedHeroes.splice(Math.floor(Math.random()*extractedHeroes.length),1)[0]);
     }
+    // debugger;
     // console.log(selectedHeroes);
+    function preload() {
+        for (var i = 0; i < arguments[0].length; i++) {
+            preloadImages[i] = new Image();
+            preloadImages[i].src = preload.arguments[0][i];
+        }
+    }
+    var preloadSrc = [];
+    selectedHeroes.forEach(function(hero){preloadSrc.push(heroes[hero].victoryPose)});
+    preload(preloadSrc);
     cardHandling.victoryPoses.push(selectedHeroes);
     selectedHeroes = selectedHeroes.concat(selectedHeroes);
     while ( selectedHeroes.length-1) {
@@ -620,6 +634,6 @@ function setDifficulty(setting){
     $(".card").replaceWith();
     cardHandling.total_possible_matches = setting;
     createBoard(heroes);
-    $('.abilities').text('Choose your hero')
+    $('.abilities').text('Choose a hero');
     reset_stats();
 }
