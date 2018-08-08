@@ -3,7 +3,6 @@ function goGoApp(){
     addClickHandlers();
     createBoard(heroes);  
 }
-
 //----------------------------------------->
 //Click Handlers
 function addClickHandlers(){
@@ -139,6 +138,7 @@ function createBoard(heroList){
     var selectedHeroes = [];
     var shuffledHeroes = [];
     cardHandling.victoryPoses = [];
+    var preloadImages = [];
     for (var prop in heroList) {
         if (heroList.hasOwnProperty(prop)) {
             extractedHeroes.push(prop);
@@ -147,7 +147,17 @@ function createBoard(heroList){
     for ( var i = 0; i < cardHandling.total_possible_matches; i++ ) {
         selectedHeroes.push(extractedHeroes.splice(Math.floor(Math.random()*extractedHeroes.length),1)[0]);
     }
+    // debugger;
     // console.log(selectedHeroes);
+    function preload() {
+        for (var i = 0; i < arguments[0].length; i++) {
+            preloadImages[i] = new Image();
+            preloadImages[i].src = preload.arguments[0][i];
+        }
+    }
+    var preloadSrc = [];
+    selectedHeroes.forEach(function(hero){preloadSrc.push(heroes[hero].victoryPose)});
+    preload(preloadSrc);
     cardHandling.victoryPoses.push(selectedHeroes);
     selectedHeroes = selectedHeroes.concat(selectedHeroes);
     while ( selectedHeroes.length-1) {
