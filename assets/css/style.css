@@ -401,3 +401,11 @@ to {
         font-size: 2rem;
     }
 }
+@media screen and (max-height: 400px) {
+    #winModal {
+        max-height: 100%;
+    }
+    #winModal img {
+        max-width: 50%;
+    }
+}
