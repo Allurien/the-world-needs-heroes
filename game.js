@@ -160,6 +160,9 @@ function createBoard(heroList){
         }
     }
     var preloadSrc = [];
+    selectedHeroes.forEach(function(hero){preloadSrc.push(heroes[hero].src)});
+    preload(preloadSrc);
+    preloadSrc = [];
     selectedHeroes.forEach(function(hero){preloadSrc.push(heroes[hero].victoryPose)});
     preload(preloadSrc);
     cardHandling.victoryPoses.push(selectedHeroes);
