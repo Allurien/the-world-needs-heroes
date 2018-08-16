@@ -220,6 +220,7 @@ h2, h3, h4, h5, h6 {
     font-size: 15vh;
     text-shadow: 4px 4px 5px black;
     animation: text-flicker 6s linear infinite;
+    z-index: 5;
 }
 #winModal img {
     position: relative; 
